@@ -1,26 +1,18 @@
 import { Request, Response, Router } from 'express'
+import { UserController } from './controllers/UserController'
+import { userRepository } from './repositories/userRepository'
 import { User } from './entities/User'
-import { AppDataSource } from './data-source'
-
-const userRepository = AppDataSource.getRepository(User)
 
 const routes = Router()
 
 routes.get('/', async (req: Request, res: Response) => {
 
-	// const users = await userRepository.find()
-	// const user = await userRepository.findOne({ where: { name: 'Ana' } })
+	// const leandro = await userRepository.findByName('Leandro')
+	// const leandro = await User.findByName('Ana')
 
-	return res.json('tudo certo')
+	return res.json()
 })
 
-routes.post('/usuarios', async (req: Request, res: Response) => {
-	const { name, email, password } = req.body
-
-	const newUser = userRepository.create({ name, email, password })
-	await userRepository.save(newUser)
-
-	return res.status(201).json({ ...newUser })
-})
+routes.post('/usuarios', new UserController().store)
 
 export default routes

@@ -13,4 +13,8 @@ export class User extends BaseEntity {
 
     @Column()
     password: string
+
+    static async findByName(name: string) {
+        return this.find({ where: { name } })
+    }
 }
