@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { User } from "./User"
 
 @Entity('addresses')
 export class Addresss {
@@ -13,4 +14,12 @@ export class Addresss {
 
     @Column({ nullable: false })
     number: string
+
+    @OneToOne(() => User, (user) => user.address)
+    @JoinColumn({ name: 'user_id' })
+    // user: User
+
+    @ManyToOne(() => User, (user) => user.addreses)
+    @JoinColumn({ name: 'user_id' })
+    user: User
 }

@@ -1,4 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { BaseEntity, Column, Entity, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Addresss } from "./Address"
+import { Role } from "./Role"
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -13,6 +15,15 @@ export class User extends BaseEntity {
 
     @Column()
     password: string
+
+    @OneToOne(() => Addresss, (address) => address.user)
+    address: Addresss
+
+    @OneToMany(() => Addresss, (address) => address.user)
+    addreses: Addresss[]
+
+    @ManyToMany(() => Role, (role) => role.users)
+    roles: Role[]
 
     static async findByName(name: string) {
         return this.find({ where: { name } })
